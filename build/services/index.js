@@ -23,6 +23,18 @@ class UserService {
             .digest("hex");
         return hashPassword;
     }
+    static getUserById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!id)
+                throw new Error("ID is undefined");
+            const res = yield db_1.prismaClient.user.findUnique({ where: { id } });
+            return res;
+        });
+    }
+    static decodeToken(token) {
+        console.log("decode");
+        return jsonwebtoken_1.default.verify(token, JWT_SECRET);
+    }
     static createUser(payload) {
         const { firstName, lastName, email, password } = payload;
         // database might not be able to read salt so we are
@@ -49,7 +61,7 @@ class UserService {
             const hashPassword = UserService.generateHashPassword(salt, password);
             if (hashPassword !== res.password)
                 throw new Error("Password is incorrect");
-            const token = jsonwebtoken_1.default.sign({ "email": email }, JWT_SECRET);
+            const token = jsonwebtoken_1.default.sign({ "email": email, "id": res.id }, JWT_SECRET);
             return token;
         });
     }

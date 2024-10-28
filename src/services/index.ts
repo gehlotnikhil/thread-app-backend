@@ -20,6 +20,15 @@ class UserService {
           .digest("hex");
           return hashPassword;
       }
+      public static async getUserById(id:string){
+        if(!id) throw new Error("ID is undefined")
+        const res = await prismaClient.user.findUnique({where:{id}})
+        return res;
+      }
+      public static decodeToken(token:string){
+        console.log("decode")
+        return JWT.verify(token,JWT_SECRET);
+      }
   public static createUser(payload: CreateUserPayload) {
     const { firstName, lastName, email, password } = payload;
     // database might not be able to read salt so we are
@@ -44,7 +53,7 @@ class UserService {
     const salt = res.salt;
     const hashPassword = UserService.generateHashPassword(salt,password);
     if(hashPassword !== res.password) throw new Error("Password is incorrect");
-    const token = JWT.sign({"email":email},JWT_SECRET);
+    const token = JWT.sign({"email":email,"id":res.id},JWT_SECRET);
     return token;
   }
 }

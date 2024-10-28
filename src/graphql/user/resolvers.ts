@@ -4,6 +4,15 @@ const queries = {
     getUserToken:async(_:any,payload:getTokenPayload)=>{
         const res = UserService.getUserToken(payload);
         return res;
+    },
+    getCurrentUser:async(_:any,parameter:any,context:any)=>{
+        console.log("in",context)
+        if(context && context.decodeToken){
+            const user = await UserService.getUserById(context.decodeToken.id as string);
+            console.log({"user":user})
+            return user;
+        }
+        throw new Error("i don't know who you are")
     }
 }
 const mutation = {

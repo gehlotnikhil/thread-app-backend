@@ -15,6 +15,7 @@ function createApolloGraphqlServer() {
     return __awaiter(this, void 0, void 0, function* () {
         const gqlserver = new server_1.ApolloServer({
             typeDefs: `
+        ${index_1.User.typeDefs}
             type Query{
              ${index_1.User.query}
             }

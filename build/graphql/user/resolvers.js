@@ -18,6 +18,15 @@ const queries = {
     getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
         const res = services_1.default.getUserToken(payload);
         return res;
+    }),
+    getCurrentUser: (_, parameter, context) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("in", context);
+        if (context && context.decodeToken) {
+            const user = yield services_1.default.getUserById(context.decodeToken.id);
+            console.log({ "user": user });
+            return user;
+        }
+        throw new Error("i don't know who you are");
     })
 };
 const mutation = {
