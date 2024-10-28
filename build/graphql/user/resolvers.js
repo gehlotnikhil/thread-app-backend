@@ -8,12 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolvers = void 0;
-const queries = {};
+const services_1 = __importDefault(require("../../services"));
+const queries = {
+    getUserToken: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const res = services_1.default.getUserToken(payload);
+        return res;
+    })
+};
 const mutation = {
-    createUser: () => __awaiter(void 0, void 0, void 0, function* () {
-        return "randomId";
+    createUser: (_, payload) => __awaiter(void 0, void 0, void 0, function* () {
+        const res = yield services_1.default.createUser(payload);
+        return res.id;
     })
 };
 exports.resolvers = { queries, mutation };
