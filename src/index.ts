@@ -13,7 +13,6 @@ const init = async () => {
     {
       context:async({req})=>{
         try{
-          console.log("1")
         const token = req.headers["token"];
         if(!token) return  {};
         console.log("f",token)
@@ -21,7 +20,6 @@ const init = async () => {
         
           const decodeToken = await UserService.decodeToken(token as string);
           console.log("s",decodeToken)
-          console.log("2")
           return {decodeToken}
       }
         catch(error){
